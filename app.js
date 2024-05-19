@@ -74,25 +74,52 @@
 // });
 
 
-const http = require('http')
+const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req,res) => {
     const url = req.url;
-    console.log(url)
+   const method = req.method;
 
-    if(url==='/node'){
+   if(url==='/'){
+    res.setHeader('content-type','text/html');
+    res.write("<html>")
+    res.write("<head><title>Enter Message</title></head>")
+    res.write(`<body><form action="/message" method="post"><input type="text"> <button type="submit">Send</button> </form></body>`)
+    res.write(`</html>`)
+}
+else if(url ==='/message' && method === "POST"){
+     //   fs.writeFileSync('message.txt','Dummy');
+      //  res.writeHead(302,)
+
+      const body =[]
+      res.on('data', chunk => {
+        body.push(chunk);
+      })
+      return req.on('end', () => {
+        const parseBody = Buffer.concat(body).toString();
+
+        const message =parseBody.split('=')[1];
+        fs.writeFile('message.txt',message ,err => {
+
+        res.statusCode=302;
+        res.setHeader('Location','/')
+         res.end()
+        })
+      })
+
+      res.setHeader('content-type','text/html');
+      res.write("<html>")
+      res.write("<head><title>Enter Message</title></head>")
+      res.write(`<body>`)
+      res.write(`<h1>Hello from my Node.js Server </h1></body>`)
+    res.write(`</html>`)
+    res.end();
+}
+  
+    else{
         res.setHeader('Content-Type','text/html');
-        res.write(`<h2>Welcome to my Node Js Project with  url: ${url}</h2>`)
-        res.end()
-    }
-    else if(url==='/home'){
-        res.setHeader('Content-Type','text/html');
-        res.write(`<h2>Home Page with url: ${url}</h2>`)
-        res.end()
-    }
-    else if(url==='/about'){
-        res.setHeader('Content-Type','text/html');
-        res.write(`<h2>Welcome to my About Page with url: ${url}</h2>`)
+        res.write(`<h2>404 Error</h2>`)
         res.end()
     }
 })
