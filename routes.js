@@ -61,4 +61,16 @@ else if(url ==='/message' && method === "POST"){
 }
 };
 
-module.exports = requestHandler;
+// module.exports = requestHandler;
+
+// module.exports={
+//     handler:requestHandler,
+//     text:"Simply Some Other Text"
+// }
+
+// module.exports.handler=requestHandler;
+// module.exports.text="Some random text";
+
+//In Node js we can omit module just like global
+exports.handler=requestHandler;
+exports.text="Some random text";
