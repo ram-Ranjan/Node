@@ -76,3 +76,11 @@ stream.on('error', err => {
 
 npm is official package manager which modules can be installed
 using npm install nodemon --save-dev and --save
+
+
+//Fixing errors 
+Types of errors
+1. Syntax error - typo or missed closing bracket
+
+2. Rutime error -
+3. Logical error -doesnt work the way it should
